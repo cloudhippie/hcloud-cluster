@@ -1,0 +1,23 @@
+{{- if .Values.oidc.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-{{ include "hcloud-cluster.clusterName" . }}-oidc
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "hcloud-cluster.labels" . | nindent 4 }}
+data:
+  cluster-{{ include "hcloud-cluster.clusterName" . }}-oidc.yaml: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: oidc:cluster-{{ include "hcloud-cluster.clusterName" . }}
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin
+    subjects:
+      - apiGroup: rbac.authorization.k8s.io
+        kind: Group
+        name: oidc:{{ include "hcloud-cluster.oidcAdminGroup" . }}
+{{- end }}

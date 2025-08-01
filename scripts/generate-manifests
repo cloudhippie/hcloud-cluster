@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+export WORKING_DIR="generated"
+export PATCH_DIR="patches"
+
+export SSH_KEY_NAME="terraform"
+export HCLOUD_REGION="fsn1"
+export HCLOUD_CONTROL_PLANE_MACHINE_TYPE="${HCLOUD_CONTROL_PLANE_MACHINE_TYPE:-cx22}"
+export HCLOUD_WORKER_MACHINE_TYPE="${HCLOUD_WORKER_MACHINE_TYPE:-cx22}"
+
+rm -rf ${WORKING_DIR}/
+mkdir -p ${WORKING_DIR}/
+
+clusterctl generate cluster dummy \
+    --from https://github.com/cloudhippie/clusterapi-hcloud/releases/download/v1.0.0/template.yaml \
+    --target-namespace cluster-dummy \
+    --kubernetes-version v1.33.2 \
+    --control-plane-machine-count=3 \
+    --worker-machine-count=1 \
+    >| ${WORKING_DIR}/dummy.yaml
+
+kubectl slice -f ${WORKING_DIR}/dummy.yaml -o ${WORKING_DIR}/
+rm -f ${WORKING_DIR}/dummy.yaml
+
+mv ${WORKING_DIR}/cluster-dummy.yaml ${WORKING_DIR}/cluster.yaml
+mv ${WORKING_DIR}/clusterresourceset-cluster-dummy-oidc.yaml ${WORKING_DIR}/clusterresourceset-oidc.yaml
+mv ${WORKING_DIR}/configmap-cluster-dummy-oidc.yaml ${WORKING_DIR}/configmap-oidc.yaml
+mv ${WORKING_DIR}/hcloudmachinetemplate-dummy-control-plane.yaml ${WORKING_DIR}/hcloudmachinetemplate-control-plane.yaml
+mv ${WORKING_DIR}/hcloudmachinetemplate-dummy-worker.yaml ${WORKING_DIR}/hcloudmachinetemplate-worker.yaml
+mv ${WORKING_DIR}/hetznercluster-dummy.yaml ${WORKING_DIR}/hetznercluster.yaml
+mv ${WORKING_DIR}/kubeadmconfigtemplate-dummy-worker.yaml ${WORKING_DIR}/kubeadmconfigtemplate-worker.yaml
+mv ${WORKING_DIR}/kubeadmcontrolplane-dummy-control-plane.yaml ${WORKING_DIR}/kubeadmcontrolplane-control-plane.yaml
+mv ${WORKING_DIR}/machinedeployment-dummy-fsn1.yaml ${WORKING_DIR}/machinedeployment.yaml
+mv ${WORKING_DIR}/machinehealthcheck-dummy-control-plane-unhealthy-5m.yaml ${WORKING_DIR}/machinehealthcheck-control-plane-unhealthy-5m.yaml
+mv ${WORKING_DIR}/machinehealthcheck-dummy-worker-unhealthy-5m.yaml ${WORKING_DIR}/machinehealthcheck-worker-unhealthy-5m.yaml
+
+rm -f ${WORKING_DIR}/machinedeployment-dummy-hel1.yaml ${WORKING_DIR}/machinedeployment-dummy-nbg1.yaml
+
+for FILE in ${WORKING_DIR}/*.yaml; do
+    yamlfmt "${FILE}"
+
+    sed -i '1i ---' "${FILE}"
+    echo >> "${FILE}"
+    echo "..." >> "${FILE}"
+done
+
+cat << EOF > ${WORKING_DIR}/kustomization.yaml
+---
+# yaml-language-server: \$schema=https://www.schemastore.org/kustomization.json
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: cluster-dummy
+
+resources:
+  - ../../resources/chart-proxy/
+
+  - common/
+  - cluster/
+
+patches:
+  - target:
+      group: cluster.x-k8s.io
+      version: v1beta1
+      kind: Cluster
+      name: dummy
+    patch: |
+      - op: replace
+        path: /metadata/labels/cni
+        value: calico
+
+  - target:
+      group: controlplane.cluster.x-k8s.io
+      version: v1beta1
+      kind: KubeadmControlPlane
+      name: dummy-control-plane
+    patch: |
+      - op: add
+        path: /spec/kubeadmConfigSpec/clusterConfiguration/apiServer/certSANs/-
+        value: cluster-dummy.cloudhippie.net
+      - op: add
+        path: /spec/kubeadmConfigSpec/clusterConfiguration/apiServer/extraArgs/oidc-issuer-url
+        value: https://auth.cloudhippie.de/realms/console
+
+  - target:
+      group: infrastructure.cluster.x-k8s.io
+      version: v1beta1
+      kind: HetznerCluster
+      name: dummy
+    patch: |
+      - op: add
+        path: /spec/sshKeys/hcloud/-
+        value:
+          name: tboerger
+      - op: add
+        path: /spec/sshKeys/hcloud/-
+        value:
+          name: amueller
+      - op: remove
+        path: /spec/controlPlaneEndpoint/host
+      - op: add
+        path: /spec/controlPlaneLoadBalancer/enabled
+        value: true
+      - op: add
+        path: /spec/controlPlaneLoadBalancer/region
+        value: fsn1
+      - op: add
+        path: /spec/controlPlaneLoadBalancer/type
+        value: lb11
+
+...
+EOF

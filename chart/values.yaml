@@ -1,0 +1,96 @@
+---
+# -- Define additional labels
+labels: {}
+
+cluster:
+  # -- (string) Name of the cluster
+  name: ~
+
+  # -- Version of the Kubernetes components
+  version: ~
+
+  # -- Version of containerd installed
+  containerd: 1.7.26
+
+  # -- Version of runc installed
+  runc: 1.2.5
+
+  # -- Name of the used cni provider
+  cni: calico
+
+  # -- (string) Address or domain for cluster endpoint
+  endpoint: ~
+
+  # -- Port for the cluster endpoint
+  port: 443
+
+  # -- List of pod cidrs for the cluster
+  podCidrs:
+    - 10.1.0.0/16
+
+  # -- List of service cidrs for the cluster
+  serviceCidrs:
+    - 10.96.0.0/12
+
+  # -- List of cert SANs applied to API server
+  sans: []
+
+hcloud:
+  # -- Load balancer configuration forHhetzner cluster
+  loadBalancer:
+    enabled: false
+
+  # -- Network configuration for Hetzner cluster
+  network:
+    enabled: true
+
+  # -- List of integrated SSH keys
+  sshKeys:
+    - terraform
+
+cp:
+  # -- Instance image used for control plane
+  image: ubuntu-24.04
+
+  # -- Instance type used for control plane
+  instance: cx22
+
+  # -- Number of replicas for control plane
+  replicas: 3
+
+  # -- Regions for the control plane
+  regions:
+    - fsn1
+    - nbg1
+    - hel1
+
+worker:
+  # -- Instance image used for workers
+  image: ubuntu-24.04
+
+  # -- Instance type used for workers
+  instance: cx22
+
+  # -- List of deployment sets for workers
+  sets:
+    - name: fsn1
+      replicas: 1
+    - name: nbg1
+      replicas: 1
+    - name: hel1
+      replicas: 1
+
+oidc:
+  # -- Enable authentication via OIDC
+  enabled: true
+
+  # -- Issuer used for OIDC authentication
+  issuer: https://auth.cloudhippie.de/realms/console
+
+  # -- Client used for OIDC authentication
+  client: kubernetes
+
+  # -- Override group name for cluster-admin mapping
+  adminGroup: ~
+
+...

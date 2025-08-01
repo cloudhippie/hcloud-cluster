@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+name: testing
+
+"on":
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup helm
+        uses: azure/setup-helm@v4
+
+      - name: Run helm
+        run: helm template hcloud-cluster ./chart
+
+...

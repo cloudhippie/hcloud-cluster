@@ -1,0 +1,16 @@
+---
+apiVersion: addons.cluster.x-k8s.io/v1beta1
+kind: ClusterResourceSet
+metadata:
+  name: cluster-dummy-oidc
+  namespace: cluster-dummy
+spec:
+  clusterSelector:
+    matchLabels:
+      cluster: dummy
+  resources:
+    - kind: ConfigMap
+      name: cluster-dummy-oidc
+  strategy: Reconcile
+
+...

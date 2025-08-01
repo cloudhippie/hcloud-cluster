@@ -1,0 +1,35 @@
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: HetznerCluster
+metadata:
+  name: {{ include "hcloud-cluster.clusterName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "hcloud-cluster.labels" . | nindent 4 }}
+spec:
+  {{- if and .Values.cluster.endpoint .Values.cluster.port }}
+  controlPlaneEndpoint:
+    host: {{ .Values.cluster.endpoint }}
+    port: {{ .Values.cluster.port }}
+  {{- end }}
+  controlPlaneLoadBalancer:
+    {{- toYaml .Values.hcloud.loadBalancer | nindent 4 }}
+  controlPlaneRegions:
+    {{- toYaml .Values.cp.regions | nindent 4 }}
+  hcloudNetwork:
+    {{- toYaml .Values.hcloud.network | nindent 4 }}
+  hcloudPlacementGroups:
+    - name: control-plane
+      type: spread
+    - name: worker
+      type: spread
+  hetznerSecretRef:
+    name: hetzner
+    key:
+      hcloudToken: hcloud
+      hetznerRobotPassword: robot-password
+      hetznerRobotUser: robot-user
+  sshKeys:
+    hcloud:
+      {{- range .Values.hcloud.sshKeys }}
+      - name: {{ . }}
+      {{- end }}

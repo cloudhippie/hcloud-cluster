@@ -1,0 +1,63 @@
+---
+# yaml-language-server: $schema=https://www.schemastore.org/kustomization.json
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: cluster-dummy
+
+resources:
+  - ../../resources/chart-proxy/
+
+  - common/
+  - cluster/
+
+patches:
+  - target:
+      group: cluster.x-k8s.io
+      version: v1beta1
+      kind: Cluster
+      name: dummy
+    patch: |
+      - op: replace
+        path: /metadata/labels/cni
+        value: calico
+
+  - target:
+      group: controlplane.cluster.x-k8s.io
+      version: v1beta1
+      kind: KubeadmControlPlane
+      name: dummy-control-plane
+    patch: |
+      - op: add
+        path: /spec/kubeadmConfigSpec/clusterConfiguration/apiServer/certSANs/-
+        value: cluster-dummy.cloudhippie.net
+      - op: add
+        path: /spec/kubeadmConfigSpec/clusterConfiguration/apiServer/extraArgs/oidc-issuer-url
+        value: https://auth.cloudhippie.de/realms/console
+
+  - target:
+      group: infrastructure.cluster.x-k8s.io
+      version: v1beta1
+      kind: HetznerCluster
+      name: dummy
+    patch: |
+      - op: add
+        path: /spec/sshKeys/hcloud/-
+        value:
+          name: tboerger
+      - op: add
+        path: /spec/sshKeys/hcloud/-
+        value:
+          name: amueller
+      - op: remove
+        path: /spec/controlPlaneEndpoint/host
+      - op: add
+        path: /spec/controlPlaneLoadBalancer/enabled
+        value: true
+      - op: add
+        path: /spec/controlPlaneLoadBalancer/region
+        value: fsn1
+      - op: add
+        path: /spec/controlPlaneLoadBalancer/type
+        value: lb11
+
+...

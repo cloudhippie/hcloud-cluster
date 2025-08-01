@@ -1,0 +1,17 @@
+{{- if .Values.oidc.enabled }}
+apiVersion: addons.cluster.x-k8s.io/v1beta1
+kind: ClusterResourceSet
+metadata:
+  name: cluster-{{ include "hcloud-cluster.clusterName" . }}-oidc
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "hcloud-cluster.labels" . | nindent 4 }}
+spec:
+  strategy: Reconcile
+  clusterSelector:
+    matchLabels:
+      cluster: {{ include "hcloud-cluster.clusterName" . }}
+  resources:
+    - kind: ConfigMap
+      name: cluster-{{ include "hcloud-cluster.clusterName" . }}-oidc
+{{- end }}

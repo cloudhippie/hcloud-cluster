@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+data:
+  cluster-dummy-oidc.yaml: |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: oidc:cluster-dummy
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin
+    subjects:
+      - apiGroup: rbac.authorization.k8s.io
+        kind: Group
+        name: oidc:cluster-dummy
+kind: ConfigMap
+metadata:
+  name: cluster-dummy-oidc
+  namespace: cluster-dummy
+
+...
