@@ -50,4 +50,4 @@ helm install hcloud-cluster oci://ghcr.io/cloudhippie/hcloud-cluster
 | oidc.issuer | string | `"https://auth.cloudhippie.de/realms/console"` | Issuer used for OIDC authentication |
 | worker.image | string | `"ubuntu-24.04"` | Instance image used for workers |
 | worker.instance | string | `"cx22"` | Instance type used for workers |
-| worker.sets | list | `[{"name":"fsn1","replicas":1},{"name":"nbg1","replicas":1},{"name":"hel1","replicas":1}]` | List of deployment sets for workers |
+| worker.sets | list | `[{"domain":"fsn1","name":"fsn1","replicas":1},{"domain":"nbg1","name":"nbg1","replicas":1},{"domain":"hel1","name":"hel1","replicas":1}]` | List of deployment sets for workers |
