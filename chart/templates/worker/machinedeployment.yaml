@@ -26,7 +26,7 @@ spec:
           kind: KubeadmConfigTemplate
           name: {{ include "hcloud-cluster.clusterName" $root }}-worker
       clusterName: {{ include "hcloud-cluster.clusterName" $root }}
-      failureDomain: {{ .name }}
+      failureDomain: {{ .domain }}
       infrastructureRef:
         apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
         kind: HCloudMachineTemplate

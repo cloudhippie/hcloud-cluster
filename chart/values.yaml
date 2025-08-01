@@ -75,10 +75,13 @@ worker:
   sets:
     - name: fsn1
       replicas: 1
+      domain: fsn1
     - name: nbg1
       replicas: 1
+      domain: nbg1
     - name: hel1
       replicas: 1
+      domain: hel1
 
 oidc:
   # -- Enable authentication via OIDC
