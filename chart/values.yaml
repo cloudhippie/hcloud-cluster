@@ -18,11 +18,11 @@ cluster:
   # -- Name of the used cni provider
   cni: calico
 
+  # -- List of cert SANs applied to API server
+  sans: []
+
   # -- (string) Address or domain for cluster endpoint
   endpoint: ~
-
-  # -- Port for the cluster endpoint
-  port: 443
 
   # -- List of pod cidrs for the cluster
   podCidrs:
@@ -32,31 +32,36 @@ cluster:
   serviceCidrs:
     - 10.96.0.0/12
 
-  # -- List of cert SANs applied to API server
-  sans: []
-
 hcloud:
-  # -- Load balancer configuration forHhetzner cluster
-  loadBalancer:
-    enabled: false
+  ccm:
+    # -- Enable Hetzner Cloud CCM sub-chart
+    enabled: true
 
-  # -- Network configuration for Hetzner cluster
-  network:
+  csi:
+    # -- Enable Hetzner Cloud CSI sub-chart
     enabled: true
 
   # -- List of integrated SSH keys
   sshKeys:
     - terraform
 
+  # -- Network configuration for Hetzner cluster
+  network:
+    enabled: true
+
+  # -- Load balancer configuration forHhetzner cluster
+  loadBalancer:
+    enabled: false
+
 cp:
+  # -- Number of replicas for control plane
+  replicas: 3
+
   # -- Instance image used for control plane
   image: ubuntu-24.04
 
   # -- Instance type used for control plane
   instance: cx22
-
-  # -- Number of replicas for control plane
-  replicas: 3
 
   # -- Regions for the control plane
   regions:
@@ -95,5 +100,27 @@ oidc:
 
   # -- Override group name for cluster-admin mapping
   adminGroup: ~
+
+# -- Values for prom-crds-proxy dependency
+prom-crds-proxy:
+  fullnameOverride: prom-crds
+
+# -- Values for hcloud-ccm-proxy dependency
+hcloud-ccm-proxy:
+  fullnameOverride: hcloud-ccm
+  target:
+    release: hcloud-ccm
+    namespace: kube-system
+
+# -- Values for hcloud-csi-proxy dependency
+hcloud-csi-proxy:
+  fullnameOverride: hcloud-csi
+  target:
+    release: hcloud-csi
+    namespace: kube-system
+
+# -- Values for calico-cniproxy dependency
+calico-cni-proxy:
+  fullnameOverride: calico-cni
 
 ...

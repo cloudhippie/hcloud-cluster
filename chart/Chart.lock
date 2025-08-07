@@ -1,0 +1,15 @@
+dependencies:
+- name: prom-crds-proxy
+  repository: oci://ghcr.io/cloudhippie/charts
+  version: 1.0.0
+- name: hcloud-ccm-proxy
+  repository: oci://ghcr.io/cloudhippie/charts
+  version: 1.0.1
+- name: hcloud-csi-proxy
+  repository: oci://ghcr.io/cloudhippie/charts
+  version: 1.0.1
+- name: calico-cni-proxy
+  repository: oci://ghcr.io/cloudhippie/charts
+  version: 1.0.0
+digest: sha256:542ddd5bf5cef9c1e47cac83c468b1eff671e14cf6fc53218534bcdb12268271
+generated: "2025-08-07T23:41:00.608306+02:00"

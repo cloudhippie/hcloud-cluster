@@ -6,11 +6,11 @@ metadata:
   labels:
     {{- include "hcloud-cluster.labels" . | nindent 4 }}
 spec:
-  {{- if and .Values.cluster.endpoint .Values.cluster.port }}
   controlPlaneEndpoint:
+    {{- if and .Values.cluster.endpoint }}
     host: {{ .Values.cluster.endpoint }}
-    port: {{ .Values.cluster.port }}
-  {{- end }}
+    {{- end }}
+    port: 443
   controlPlaneLoadBalancer:
     {{- toYaml .Values.hcloud.loadBalancer | nindent 4 }}
   controlPlaneRegions:
