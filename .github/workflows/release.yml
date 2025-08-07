@@ -20,6 +20,13 @@ jobs:
         with:
           token: ${{ secrets.BOT_ACCESS_TOKEN }}
 
+      - name: Setup helm
+        uses: azure/setup-helm@v4
+
+      - name: Build deps
+        working-directory: chart
+        run: helm dependency build
+
       - name: Write buildtime
         run: date >| .github/RELEASE
 
