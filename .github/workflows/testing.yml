@@ -25,6 +25,10 @@ jobs:
       - name: Setup helm
         uses: azure/setup-helm@v4
 
+      - name: Build deps
+        working-directory: chart
+        run: helm dependency build
+
       - name: Run helm
         run: helm template hcloud-cluster ./chart
 
