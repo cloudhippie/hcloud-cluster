@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/cloudhippie/hcloud-cluster/compare/v1.1.0...v1.2.0) (2025-08-26)
+
+
+### Features
+
+* enable public access to repo ([5f575a2](https://github.com/cloudhippie/hcloud-cluster/commit/5f575a2aa7331b807ecd2815a26f196390969885))
+
 ## [1.1.0](https://github.com/cloudhippie/hcloud-cluster/compare/v1.0.1...v1.1.0) (2025-08-07)
 
 
