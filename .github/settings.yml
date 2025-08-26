@@ -4,7 +4,7 @@ repository:
   description: Chart for Hetzner Cloud cluster
   topics: cloudhippie, kubernetes, chart, hcloud
 
-  private: true
+  private: false
   has_issues: true
   has_wiki: false
   has_downloads: false
