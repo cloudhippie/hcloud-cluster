@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/cloudhippie/hcloud-cluster/compare/v1.2.0...v1.2.1) (2025-08-31)
+
+
+### Bugfixes
+
+* upgrade hcloud-ccm-proxy to 1.1.0 ([5f9d6a0](https://github.com/cloudhippie/hcloud-cluster/commit/5f9d6a07d224dbb9f70b2fdf1aba1734edc7a7c6))
+
 ## [1.2.0](https://github.com/cloudhippie/hcloud-cluster/compare/v1.1.0...v1.2.0) (2025-08-26)
 
 

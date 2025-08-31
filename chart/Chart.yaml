@@ -2,8 +2,8 @@
 apiVersion: v2
 name: hcloud-cluster
 type: application
-version: 1.0.0
-appVersion: 1.33.2
+version: 1.2.1
+appVersion: 1.2.1
 description: Kubernetes cluster for Hetzner Cloud
 home: https://github.com/cloudhippie/hcloud-cluster
 keywords: []
@@ -29,5 +29,4 @@ dependencies:
     name: calico-cni-proxy
     repository: oci://ghcr.io/cloudhippie/charts
     version: 1.0.0
-
 ...
