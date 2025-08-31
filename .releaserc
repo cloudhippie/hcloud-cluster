@@ -122,7 +122,8 @@
                 "message": "chore: release ${nextRelease.version}",
                 "assets": [
                     "CHANGELOG.md",
-                    ".github/RELEASE"
+                    ".github/RELEASE",
+                    "chart/Chart.yaml"
                 ]
             }
         ],
