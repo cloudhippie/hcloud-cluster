@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/cloudhippie/hcloud-cluster/compare/v1.2.1...v1.2.2) (2025-08-31)
+
+
+### Bugfixes
+
+* properly define kubernetes version via values ([6ba4df3](https://github.com/cloudhippie/hcloud-cluster/commit/6ba4df3450404ba6bdca19c61fb28b01df2ed66b))
+
 ## [1.2.1](https://github.com/cloudhippie/hcloud-cluster/compare/v1.2.0...v1.2.1) (2025-08-31)
 
 

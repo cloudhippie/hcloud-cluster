@@ -2,8 +2,8 @@
 apiVersion: v2
 name: hcloud-cluster
 type: application
-version: 1.2.1
-appVersion: 1.2.1
+version: 1.2.2
+appVersion: 1.2.2
 description: Kubernetes cluster for Hetzner Cloud
 home: https://github.com/cloudhippie/hcloud-cluster
 keywords: []
