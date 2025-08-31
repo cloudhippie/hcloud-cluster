@@ -20,7 +20,7 @@ dependencies:
   - condition: hcloud.ccm.enabled
     name: hcloud-ccm-proxy
     repository: oci://ghcr.io/cloudhippie/charts
-    version: 1.0.1
+    version: 1.1.0
   - condition: hcloud.csi.enabled
     name: hcloud-csi-proxy
     repository: oci://ghcr.io/cloudhippie/charts

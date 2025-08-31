@@ -4,12 +4,12 @@ dependencies:
   version: 1.0.0
 - name: hcloud-ccm-proxy
   repository: oci://ghcr.io/cloudhippie/charts
-  version: 1.0.1
+  version: 1.1.0
 - name: hcloud-csi-proxy
   repository: oci://ghcr.io/cloudhippie/charts
   version: 1.0.1
 - name: calico-cni-proxy
   repository: oci://ghcr.io/cloudhippie/charts
   version: 1.0.0
-digest: sha256:542ddd5bf5cef9c1e47cac83c468b1eff671e14cf6fc53218534bcdb12268271
-generated: "2025-08-07T23:41:00.608306+02:00"
+digest: sha256:a2da8d7993bbf7706f77bb6249b90e9ed7e1842739f1ba38fdff74277a4483de
+generated: "2025-08-31T22:11:23.311544+02:00"
