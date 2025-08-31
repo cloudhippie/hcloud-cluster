@@ -44,7 +44,7 @@ helm install hcloud-cluster oci://ghcr.io/cloudhippie/hcloud-cluster
 | cluster.runc | string | `"1.2.5"` | Version of runc installed |
 | cluster.sans | list | `[]` | List of cert SANs applied to API server |
 | cluster.serviceCidrs | list | `["10.96.0.0/12"]` | List of service cidrs for the cluster |
-| cluster.version | string | `nil` | Version of the Kubernetes components |
+| cluster.version | string | `"v1.33.2"` | Version of the Kubernetes components |
 | cp.image | string | `"ubuntu-24.04"` | Instance image used for control plane |
 | cp.instance | string | `"cx22"` | Instance type used for control plane |
 | cp.regions | list | `["fsn1","nbg1","hel1"]` | Regions for the control plane |
