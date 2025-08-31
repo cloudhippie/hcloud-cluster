@@ -110,8 +110,8 @@ spec:
         - grep VERSION= /etc/os-release; uname -a
         - export CONTAINERD={{ .Values.cluster.containerd }}
         - export RUNC={{ .Values.cluster.runc }}
-        - export KUBERNETES_VERSION=$(echo {{ .Values.cluster.version | default (printf "v%s" .Chart.AppVersion) }} | sed 's/^v//')
-        - export TRIMMED_KUBERNETES_VERSION=$(echo {{ .Values.cluster.version | default (printf "v%s" .Chart.AppVersion) }} | sed 's/^v//' | awk -F . '{print $1 "." $2}')
+        - export KUBERNETES_VERSION=$(echo {{ .Values.cluster.version }} | sed 's/^v//')
+        - export TRIMMED_KUBERNETES_VERSION=$(echo {{ .Values.cluster.version }} | sed 's/^v//' | awk -F . '{print $1 "." $2}')
         - ARCH="$(dpkg --print-architecture)"
         - localectl set-locale LANG=en_US.UTF-8
         - localectl set-locale LANGUAGE=en_US.UTF-8

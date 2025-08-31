@@ -7,7 +7,7 @@ cluster:
   name: ~
 
   # -- Version of the Kubernetes components
-  version: ~
+  version: v1.33.2
 
   # -- Version of containerd installed
   containerd: 1.7.26
